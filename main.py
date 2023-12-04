@@ -1,19 +1,50 @@
+def calculatrice():
+    historique = []
 
-import tkinter as tk
-from time import strftime
+    while True:
+        try:
+            num1 = float(input('Entrez le premier nombre : '))
+            operateur = input("Entrez l'opérateur (+, -, *, /, %) : ")
+            num2 = float(input('Entrez le deuxième nombre : '))
 
-def update_time():
-    current_time = strftime('%H:%M:%S %p')
-    label.config(text=current_time)
-    label.after(1000, update_time)  # Met à jour toutes les 1000 millisecondes (1 seconde)
+            if operateur == '+':
+                resultat = num1 + num2
+            elif operateur == '*':
+                resultat = num1 * num2
+            elif operateur == '%':
+                resultat = num1 % num2
+            elif operateur == '/':
+                if num2 == 0:
+                    print('Division par zéro invalide')
+                    continue
+                else:
+                    resultat = num1 / num2
+            elif operateur == '-':
+                resultat = num1 - num2
+            else:
+                print('Opérateur invalide')
+                continue
 
-root = tk.Tk()
-root.title("Horloge Numérique")
+            print(resultat)
 
-label = tk.Label(root, font=('calibri', 40, 'bold'), background='black', foreground='white')
-label.pack(anchor='center')
+            # Ajouter à l'historique
+            operation = f"{num1} {operateur} {num2} = {resultat}"
+            historique.append(operation)
 
-update_time()  # Lance la fonction de mise à jour initiale
+            continuer = input("Voulez-vous effectuer une autre opération ? (o/n) : ").lower()
+            if continuer != 'o':
+                print("Historique des opérations :")
+                for operation in historique:
+                    print(operation)
+                break
 
-root.mainloop()
+        except ValueError:
+            print("Erreur : Veuillez entrer des nombres valides.")
+        except ZeroDivisionError:
+            print("Erreur : Division par zéro.")
+        except Exception as e:
+            print(f"Erreur : {e}")
+
+if __name__ == "__main__":
+    calculatrice()
 
